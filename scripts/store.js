@@ -33,20 +33,20 @@ const store = (function () {
   // >>> becareful of cuids. do not copy the actual value because the value changes. just pass in store.items[0].id like instead of "cjo4pagt900003g5meshyfqrd"
   const findAndDelete = function(id) {
     console.log('findAndDelete fired!');
-    //const index = this.items.findIndex(item => item.id === id);
-    const index = this.findById(id);
-    console.log(index);
-    const item = store.items.findIndex(item => item.id === id);
-    console.log(item);
+    const index = this.items.findIndex(item => item.id === id);
+    // const index = this.findById(id);
+    // console.log(index);
+    // const item = store.items.findIndex(item => item.id === id);
+    // console.log(item);
     store.items.splice(index, 1);
   };
 
 
   const findAndUpdateName = function(id, newName) {
     try {
-      Item.validateName(name);
-      store.items.findById(id).name = newName; 
-      
+      Item.validateName(newName);
+      this.findById(id).name = newName;
+      console.log(newName); 
     } catch(error) {
       console.log(`Cannot update name: ${error.message}`);
     }
