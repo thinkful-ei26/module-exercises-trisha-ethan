@@ -1,5 +1,7 @@
 'use strict';
 
+/* global shoppingList, cuid */
+
 const store = (function () {
   const items = [
     { id: cuid(), name: 'apples', checked: false },
@@ -14,7 +16,7 @@ const store = (function () {
   const addItem = function(name){
     try {
       Item.validateName(name);
-      store.items.push(this.items);
+      this.items.push(Item.create(name));
     } catch(error) {
       console.log('Cannot add item:' + error.message);
     }
@@ -28,11 +30,15 @@ const store = (function () {
     this.findById(id).checked = !this.findById(id).checked;
   };
 
-  // >>> here!
+  // >>> becareful of cuids. do not copy the actual value because the value changes. just pass in store.items[0].id like instead of "cjo4pagt900003g5meshyfqrd"
   const findAndDelete = function(id) {
+    console.log('findAndDelete fired!');
+    //const index = this.items.findIndex(item => item.id === id);
     const index = this.findById(id);
-    const item = store.items.findIndex(index);
-    store.items.splice(item, 1);
+    console.log(index);
+    const item = store.items.findIndex(item => item.id === id);
+    console.log(item);
+    store.items.splice(index, 1);
   };
 
 
