@@ -1,7 +1,7 @@
 'use strict';
 /*eslint-env jquery*/
 
-/* global store, cuid */
+/* global store */
 
 // eslint-disable-next-line no-unused-vars
 const shoppingList = (function(){
@@ -58,23 +58,22 @@ const shoppingList = (function(){
   }
   
   
-  function addItemToShoppingList(itemName) {
-    try {
-      Item.validateName(itemName);
-      store.items.push(Item.create(itemName));
-      render();
-    } catch(error) {
-      console.error(`Cannot add item: ${error.message}`);
-    }
-    //store.items.push({ id: cuid(), name: itemName, checked: false });
-  }
+  // function addItemToShoppingList(itemName) {
+  //   try {
+  //     Item.validateName(itemName);
+  //     store.items.push(Item.create(itemName));
+  //     render();
+  //   } catch(error) {
+  //     console.error(`Cannot add item: ${error.message}`);
+  //   }
+  // }
   
   function handleNewItemSubmit() {
     $('#js-shopping-list-form').submit(function (event) {
       event.preventDefault();
       const newItemName = $('.js-shopping-list-entry').val();
       $('.js-shopping-list-entry').val('');
-      addItemToShoppingList(newItemName);
+      store.addItem(newItemName);
       render();
     });
   }
@@ -135,7 +134,6 @@ const shoppingList = (function(){
       event.preventDefault();
       const id = getItemIdFromElement(event.currentTarget);
       const newName = $(event.currentTarget).find('.shopping-item').val();
-      //console.log(newName);
       store.findAndUpdateName(id, newName);
       render();
     });

@@ -1,6 +1,6 @@
 'use strict';
 
-/* global shoppingList, cuid */
+/* global Item, cuid */
 
 const store = (function () {
   const items = [
@@ -18,7 +18,7 @@ const store = (function () {
       Item.validateName(name);
       this.items.push(Item.create(name));
     } catch(error) {
-      console.log('Cannot add item:' + error.message);
+      console.error('Cannot add item:' + error.message);
     }
   };
 
@@ -30,15 +30,9 @@ const store = (function () {
     this.findById(id).checked = !this.findById(id).checked;
   };
 
-  // >>> becareful of cuids. do not copy the actual value because the value changes. just pass in store.items[0].id like instead of "cjo4pagt900003g5meshyfqrd"
+  // >>> becareful of cuids. do not copy the actual value because the value changes upon refreshing the app. just pass in store.items[0].id like instead of "cjo4pagt900003g5meshyfqrd"
   const findAndDelete = function(id) {
-    console.log('findAndDelete fired!');
-    const index = this.items.findIndex(item => item.id === id);
-    // const index = this.findById(id);
-    // console.log(index);
-    // const item = store.items.findIndex(item => item.id === id);
-    // console.log(item);
-    store.items.splice(index, 1);
+    store.items.splice(this.items.findIndex(item => item.id === id), 1);
   };
 
 
@@ -46,9 +40,8 @@ const store = (function () {
     try {
       Item.validateName(newName);
       this.findById(id).name = newName;
-      console.log(newName); 
     } catch(error) {
-      console.log(`Cannot update name: ${error.message}`);
+      console.error(`Cannot update name: ${error.message}`);
     }
   };
 
